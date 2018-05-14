@@ -1,0 +1,178 @@
+<html>
+
+<head>
+    <title>The Materialize Selects Example</title>
+    <meta name="viewport" content="width = device-width, initial-scale = 1">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js">
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('select').material_select();
+        });
+    </script>
+</head>
+<div class="row">
+    <h1>Survey Questions</h1>
+    <hr>
+    <br>
+    <div class="row">
+        <div class="input-field col m6">
+            <input type="text" id="friendName">
+            <label for="friendName" class="active">Name (Required)</label>
+        </div>
+        <div class="input-field col m6">
+            <input type="text" id="photoUrl">
+            <label for="photoUrl" class="active">Photo URL (Required)</label>
+        </div>
+    </div>
+</div>
+
+<body class="container">
+    <div class="row">
+        <h4>Please rate the following Star Wars movies:</h4>
+        <form class="col s6">
+            <div class="row">
+                <label>The Pantom Menace</label>
+                <select id="question1">
+                    <option value="" disabled selected>Select Rating</option>
+                    <option value="1">1 (lowest)</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5 (highest)</option>
+                </select>
+            </div>
+            <div class="row">
+                <label>Attack of the Clones</label>
+                <select id="question2">
+                    <option value="" disabled selected>Select Rating</option>
+                    <option value="1">1 (lowest)</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5 (highest)</option>
+                </select>
+            </div>
+            <div class="row">
+                <label>Revenge of the Sith</label>
+                <select id="question3">
+                    <option value="" disabled selected>Select Rating</option>
+                    <option value="1">1 (lowest)</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5 (highest)</option>
+                </select>
+            </div>
+            <div class="row">
+                <label>A New Hope</label>
+                <select id="question4">
+                    <option value="" disabled selected>Select Rating</option>
+                    <option value="1">1 (lowest)</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5 (highest)</option>
+                </select>
+            </div>
+            <div class="row">
+                <label>The Empire Strikes Back</label>
+                <select id="question5">
+                    <option value="" disabled selected>Select Rating</option>
+                    <option value="1">1 (lowest)</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5 (highest)</option>
+                </select>
+            </div>
+            <div class="row">
+                <label>Return of the Jedi</label>
+                <select id="question6">
+                    <option value="" disabled selected>Select Rating</option>
+                    <option value="1">1 (lowest)</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5 (highest)</option>
+                </select>
+            </div>
+            <div class="row">
+                <label>The Force Awakens</label>
+                <select id="question7">
+                    <option value="" disabled selected>Select Rating</option>
+                    <option value="1">1 (lowest)</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5 (highest)</option>
+                </select>
+            </div>
+            <div class="row">
+                <label>The Last Jedi</label>
+                <select id="question8">
+                    <option value="" disabled selected>Select Rating</option>
+                    <option value="1">1 (lowest)</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5 (highest)</option>
+                </select>
+            </div>
+            <button class="btn" id="submit">Submit</button>
+
+        </form>
+
+    </div>
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <h4>Your new friend!</h4>
+            <p id="modalName">A bunch of text</p>
+            <img id="modalImg" src="" alt="" height="200" width="200">
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#submit").on("click", function (event) {
+            event.preventDefault();
+            let name = $("#friendName").val()
+            // console.log(name)
+
+            var friendData = {
+                friendName: $("#friendName").val().trim(),
+                friendPhoto: $("#photoUrl").val().trim(),
+                scores: [
+                    $("#question1").val(),
+                    $("#question2").val(),
+                    $("#question3").val(),
+                    $("#question4").val(),
+                    $("#question5").val(),
+                    $("#question6").val(),
+                    $("#question7").val(),
+                    $("#question8").val()
+                ]
+            };
+            // Post data to friends Object
+            $.post("/api/friends", friendData,
+                function (data) {
+                    console.log(data.friendName)
+                    $("#modalName").text(data.friendName)
+                    $("#modalImg").attr("src",data.photoUrl)
+                    $('.modal').openModal();
+
+
+                });
+        });
+    })
+
+</script>
+
+</html>
